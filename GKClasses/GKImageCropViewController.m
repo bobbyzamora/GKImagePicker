@@ -37,32 +37,27 @@
 #pragma Private Methods
 
 
-- (void)_actionCancel{
+- (void)_actionCancel {
     [self.navigationController popViewControllerAnimated:YES];
 }
 
-
-- (void)_actionUse{
+- (void)_actionUse {
     _croppedImage = [self.imageCropView croppedImage];
     [self.delegate imageCropController:self didFinishWithCroppedImage:_croppedImage];
 }
 
-
-- (void)_setupNavigationBar{
-    
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel 
-                                                                                          target:self 
+- (void)_setupNavigationBar {
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel
+                                                                                          target:self
                                                                                           action:@selector(_actionCancel)];
     
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"GKIuse", @"") 
-                                                                              style:UIBarButtonItemStyleBordered 
-                                                                             target:self 
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"GKIuse", @"")
+                                                                              style:UIBarButtonItemStyleBordered
+                                                                             target:self
                                                                              action:@selector(_actionUse)];
 }
 
-
-- (void)_setupCropView{
-    
+- (void)_setupCropView {
     self.imageCropView = [[GKImageCropView alloc] initWithFrame:self.view.bounds];
     [self.imageCropView setImageToCrop:sourceImage];
     [self.imageCropView setResizableCropArea:self.resizeableCropArea];
@@ -70,8 +65,7 @@
     [self.view addSubview:self.imageCropView];
 }
 
-- (void)_setupCancelButton{
-    
+- (void)_setupCancelButton {
     self.cancelButton = [UIButton buttonWithType:UIButtonTypeCustom];
     
     [self.cancelButton setBackgroundImage:[[UIImage imageNamed:@"PLCameraSheetButton.png"] stretchableImageWithLeftCapWidth:5 topCapHeight:0] forState:UIControlStateNormal];
@@ -80,15 +74,13 @@
     [[self.cancelButton titleLabel] setFont:[UIFont boldSystemFontOfSize:11]];
     [[self.cancelButton titleLabel] setShadowOffset:CGSizeMake(0, 1)];
     [self.cancelButton setFrame:CGRectMake(0, 0, 50, 30)];
-    [self.cancelButton setTitle:NSLocalizedString(@"GKIcancel",@"") forState:UIControlStateNormal];
+    [self.cancelButton setTitle:NSLocalizedString(@"GKIcancel", @"") forState:UIControlStateNormal];
     [self.cancelButton setTitleColor:[UIColor colorWithRed:0.173 green:0.176 blue:0.176 alpha:1] forState:UIControlStateNormal];
     [self.cancelButton setTitleShadowColor:[UIColor colorWithRed:0.827 green:0.831 blue:0.839 alpha:1] forState:UIControlStateNormal];
-    [self.cancelButton  addTarget:self action:@selector(_actionCancel) forControlEvents:UIControlEventTouchUpInside];
-    
+    [self.cancelButton addTarget:self action:@selector(_actionCancel) forControlEvents:UIControlEventTouchUpInside];
 }
 
-- (void)_setupUseButton{
-    
+- (void)_setupUseButton {
     self.useButton = [UIButton buttonWithType:UIButtonTypeCustom];
     
     [self.useButton setBackgroundImage:[[UIImage imageNamed:@"PLCameraSheetDoneButton.png"] stretchableImageWithLeftCapWidth:5 topCapHeight:0] forState:UIControlStateNormal];
@@ -97,17 +89,15 @@
     [[self.useButton titleLabel] setFont:[UIFont boldSystemFontOfSize:11]];
     [[self.useButton titleLabel] setShadowOffset:CGSizeMake(0, -1)];
     [self.useButton setFrame:CGRectMake(0, 0, 50, 30)];
-    [self.useButton setTitle:NSLocalizedString(@"GKIuse",@"") forState:UIControlStateNormal];
+    [self.useButton setTitle:NSLocalizedString(@"GKIuse", @"") forState:UIControlStateNormal];
     [self.useButton setTitleShadowColor:[UIColor colorWithRed:0.118 green:0.247 blue:0.455 alpha:1] forState:UIControlStateNormal];
-    [self.useButton  addTarget:self action:@selector(_actionUse) forControlEvents:UIControlEventTouchUpInside];
-    
+    [self.useButton addTarget:self action:@selector(_actionUse) forControlEvents:UIControlEventTouchUpInside];
 }
 
-- (UIImage *)_toolbarBackgroundImage{
-    
+- (UIImage *)_toolbarBackgroundImage {
     CGFloat components[] = {
-        1., 1., 1., 1.,
-        123./255., 125/255., 132./255., 1.
+        1.,          1.,         1.,          1.,
+        123. / 255., 125 / 255., 132. / 255., 1.
     };
     
     UIGraphicsBeginImageContextWithOptions(CGSizeMake(320, 54), YES, 0.0);
@@ -119,14 +109,14 @@
     CGContextDrawLinearGradient(ctx, gradient, CGPointMake(0, 0), CGPointMake(0, 54), kCGImageAlphaNoneSkipFirst);
     
     UIImage *viewImage = UIGraphicsGetImageFromCurrentImageContext();
-	
-	CGGradientRelease(gradient);
+    
+    CGGradientRelease(gradient);
     UIGraphicsEndImageContext();
     
     return viewImage;
 }
 
-- (void)_setupToolbar{
+- (void)_setupToolbar {
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
         self.toolbar = [[UIToolbar alloc] initWithFrame:CGRectZero];
         [self.toolbar setBackgroundImage:[self _toolbarBackgroundImage] forToolbarPosition:UIToolbarPositionAny barMetrics:UIBarMetricsDefault];
@@ -156,7 +146,7 @@
 #pragma mark -
 #pragma Super Class Methods
 
-- (id)init{
+- (id)init {
     self = [super init];
     if (self) {
         // Custom initialization
@@ -164,37 +154,36 @@
     return self;
 }
 
-- (void)viewDidLoad{
+- (void)viewDidLoad {
     [super viewDidLoad];
-	// Do any additional setup after loading the view.
+    // Do any additional setup after loading the view.
     
     self.title = NSLocalizedString(@"GKIchoosePhoto", @"");
-
+    
     [self _setupNavigationBar];
     [self _setupCropView];
     [self _setupToolbar];
-
+    
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
         [self.navigationController setNavigationBarHidden:YES];
     } else {
-		[self.navigationController setNavigationBarHidden:NO];
-	}
+        [self.navigationController setNavigationBarHidden:NO];
+    }
 }
 
-- (void)viewDidUnload{
+- (void)viewDidUnload {
     [super viewDidUnload];
     // Release any retained subviews of the main view.
 }
 
-- (void)viewWillLayoutSubviews{
+- (void)viewWillLayoutSubviews {
     [super viewWillLayoutSubviews];
     
     self.imageCropView.frame = self.view.bounds;
     self.toolbar.frame = CGRectMake(0, CGRectGetHeight(self.view.frame) - 54, 320, 54);
 }
 
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
-{
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 

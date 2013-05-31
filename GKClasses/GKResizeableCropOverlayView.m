@@ -12,7 +12,7 @@
 #define kBorderCorrectionValue 12
 
 
-@interface GKResizeableCropOverlayView(){
+@interface GKResizeableCropOverlayView () {
     CGSize _initialContentSize;
     BOOL _resizingEnabled;
     CGPoint _theAnchor;
@@ -20,12 +20,12 @@
     GKResizeableViewBorderMultiplyer _resizeMultiplyer;
 }
 
--(void)_addContentViews;
--(CGPoint)_calcuateWhichBorderHandleIsTheAnchorPointFromHere:(CGPoint)anchorPoint;
--(NSMutableArray*)_getAllCurrentHandlePositions;
--(void)_resizeWithTouchPoint:(CGPoint)point;
--(void)_fillMultiplyer;
--(CGRect)_preventBorderFrameFromGettingTooSmallOrTooBig:(CGRect)newFrame;
+- (void)_addContentViews;
+- (CGPoint)_calcuateWhichBorderHandleIsTheAnchorPointFromHere:(CGPoint)anchorPoint;
+- (NSMutableArray *)_getAllCurrentHandlePositions;
+- (void)_resizeWithTouchPoint:(CGPoint)point;
+- (void)_fillMultiplyer;
+- (CGRect)_preventBorderFrameFromGettingTooSmallOrTooBig:(CGRect)newFrame;
 
 @end
 
@@ -39,16 +39,14 @@
 #pragma mark -
 #pragma Overriden
 
--(void)setFrame:(CGRect)frame{
+- (void)setFrame:(CGRect)frame {
     [super setFrame:frame];
     CGFloat toolbarSize = UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad ? 0 : 54;
-    _contentView.frame = CGRectMake(self.bounds.size.width / 2 - _initialContentSize.width  / 2  , (self.bounds.size.height - toolbarSize) / 2 - _initialContentSize.height / 2 , _initialContentSize.width, _initialContentSize.height);
-    _cropBorderView.frame = CGRectMake(self.bounds.size.width / 2 - _initialContentSize.width  / 2 - kBorderCorrectionValue, (self.bounds.size.height - toolbarSize) / 2 - _initialContentSize.height / 2 - kBorderCorrectionValue, _initialContentSize.width + kBorderCorrectionValue*2, _initialContentSize.height + kBorderCorrectionValue*2);
+    _contentView.frame = CGRectMake(self.bounds.size.width / 2 - _initialContentSize.width  / 2, (self.bounds.size.height - toolbarSize) / 2 - _initialContentSize.height / 2, _initialContentSize.width, _initialContentSize.height);
+    _cropBorderView.frame = CGRectMake(self.bounds.size.width / 2 - _initialContentSize.width  / 2 - kBorderCorrectionValue, (self.bounds.size.height - toolbarSize) / 2 - _initialContentSize.height / 2 - kBorderCorrectionValue, _initialContentSize.width + kBorderCorrectionValue * 2, _initialContentSize.height + kBorderCorrectionValue * 2);
 }
 
-
-- (id)initWithFrame:(CGRect)frame
-{
+- (id)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
         // Initialization code
@@ -56,19 +54,16 @@
     return self;
 }
 
--(id)initWithFrame:(CGRect)frame andInitialContentSize:(CGSize)contentSize{
-    
+- (id)initWithFrame:(CGRect)frame andInitialContentSize:(CGSize)contentSize {
     self = [super initWithFrame:frame];
     if (self) {
         _initialContentSize = contentSize;
         [self _addContentViews];
     }
     return self;
-    
 }
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
-    
     UITouch *touch = [touches anyObject];
     CGPoint touchPoint = [touch locationInView:_cropBorderView];
     
@@ -83,34 +78,33 @@
     _startPoint = [touch locationInView:self.superview];
 }
 
--(void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event{
-    if (!_resizingEnabled)
-        return;
+- (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
+    if (!_resizingEnabled) return;
     [self _resizeWithTouchPoint:[[touches anyObject] locationInView:self.superview]];
 }
 
 #pragma mark -
 #pragma private
 
--(void)_addContentViews{
+- (void)_addContentViews {
     CGFloat toolbarSize = UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad ? 0 : 54;
-
-    _contentView = [[UIView alloc] initWithFrame:CGRectMake(self.bounds.size.width / 2 - _initialContentSize.width  / 2  , (self.bounds.size.height - toolbarSize) / 2 - _initialContentSize.height / 2 , _initialContentSize.width, _initialContentSize.height)];
+    
+    _contentView = [[UIView alloc] initWithFrame:CGRectMake(self.bounds.size.width / 2 - _initialContentSize.width  / 2, (self.bounds.size.height - toolbarSize) / 2 - _initialContentSize.height / 2, _initialContentSize.width, _initialContentSize.height)];
     _contentView.backgroundColor = [UIColor clearColor];
     self.cropSize = _contentView.frame.size;
     [self addSubview:_contentView];
-   // NSLog(@"x: %f y: %f %f", CGRectGetMinX(_contentView.frame), CGRectGetMinY(_contentView.frame), self.bounds.size.width);
+    // NSLog(@"x: %f y: %f %f", CGRectGetMinX(_contentView.frame), CGRectGetMinY(_contentView.frame), self.bounds.size.width);
     
-    _cropBorderView = [[GKCropBorderView alloc] initWithFrame:CGRectMake(self.bounds.size.width / 2 - _initialContentSize.width  / 2 - kBorderCorrectionValue, (self.bounds.size.height - toolbarSize) / 2 - _initialContentSize.height / 2 - kBorderCorrectionValue, _initialContentSize.width + kBorderCorrectionValue*2, _initialContentSize.height + kBorderCorrectionValue*2)];
+    _cropBorderView = [[GKCropBorderView alloc] initWithFrame:CGRectMake(self.bounds.size.width / 2 - _initialContentSize.width  / 2 - kBorderCorrectionValue, (self.bounds.size.height - toolbarSize) / 2 - _initialContentSize.height / 2 - kBorderCorrectionValue, _initialContentSize.width + kBorderCorrectionValue * 2, _initialContentSize.height + kBorderCorrectionValue * 2)];
     [self addSubview:_cropBorderView];
 }
 
--(CGPoint)_calcuateWhichBorderHandleIsTheAnchorPointFromHere:(CGPoint)anchorPoint{
-    NSMutableArray* allHandles = [self _getAllCurrentHandlePositions];
+- (CGPoint)_calcuateWhichBorderHandleIsTheAnchorPointFromHere:(CGPoint)anchorPoint {
+    NSMutableArray *allHandles = [self _getAllCurrentHandlePositions];
     
     CGFloat closest = 3000;
-    NSValue* theRealAnchor = nil;
-    for (NSValue* value in allHandles){
+    NSValue *theRealAnchor = nil;
+    for (NSValue *value in allHandles) {
         //Pythagoras is watching you :-)
         CGPoint currentPoint = [value CGPointValue];
         CGFloat xDist = (currentPoint.x - anchorPoint.x);
@@ -123,14 +117,13 @@
     return [theRealAnchor CGPointValue];
 }
 
--(NSMutableArray*)_getAllCurrentHandlePositions{
-    
-    NSMutableArray* a = [NSMutableArray new];
+- (NSMutableArray *)_getAllCurrentHandlePositions {
+    NSMutableArray *a = [NSMutableArray new];
     //
     //again starting with the upper left corner and then following the rect clockwise
     CGPoint currentPoint = CGPointMake(0, 0);
     [a addObject:[NSValue valueWithCGPoint:currentPoint]];
-                  
+    
     currentPoint = CGPointMake(_cropBorderView.bounds.size.width / 2, 0);
     [a addObject:[NSValue valueWithCGPoint:currentPoint]];
     
@@ -140,7 +133,7 @@
     currentPoint = CGPointMake(_cropBorderView.bounds.size.width, _cropBorderView.bounds.size.height / 2);
     [a addObject:[NSValue valueWithCGPoint:currentPoint]];
     
-    currentPoint = CGPointMake(_cropBorderView.bounds.size.width , _cropBorderView.bounds.size.height);
+    currentPoint = CGPointMake(_cropBorderView.bounds.size.width, _cropBorderView.bounds.size.height);
     [a addObject:[NSValue valueWithCGPoint:currentPoint]];
     
     currentPoint = CGPointMake(_cropBorderView.bounds.size.width / 2, _cropBorderView.bounds.size.height);
@@ -155,10 +148,10 @@
     return a;
 }
 
--(void)_resizeWithTouchPoint:(CGPoint)point{
+- (void)_resizeWithTouchPoint:(CGPoint)point {
     //This is the place where all the magic happends
     //prevent goint offscreen...
-    CGFloat border = kBorderCorrectionValue*2;
+    CGFloat border = kBorderCorrectionValue * 2;
     point.x = point.x < border ? border : point.x;
     point.y = point.y < border ? border : point.y;
     point.x = point.x > self.superview.bounds.size.width - border ? point.x = self.superview.bounds.size.width - border : point.x;
@@ -177,9 +170,9 @@
     _startPoint = point;
 }
 
--(CGRect)_preventBorderFrameFromGettingTooSmallOrTooBig:(CGRect)newFrame{
+- (CGRect)_preventBorderFrameFromGettingTooSmallOrTooBig:(CGRect)newFrame {
     CGFloat toolbarSize = UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad ? 0 : 54;
-
+    
     if (newFrame.size.width < 64) {
         newFrame.size.width = _cropBorderView.frame.size.width;
         newFrame.origin.x = _cropBorderView.frame.origin.x;
@@ -189,25 +182,23 @@
         newFrame.origin.y = _cropBorderView.frame.origin.y;
     }
     
-    if (newFrame.origin.x < 0){
+    if (newFrame.origin.x < 0) {
         newFrame.size.width = _cropBorderView.frame.size.width + (_cropBorderView.frame.origin.x - self.superview.bounds.origin.x);
         newFrame.origin.x = 0;
     }
     
-    if (newFrame.origin.y < 0){
-        newFrame.size.height = _cropBorderView.frame.size.height + (_cropBorderView.frame.origin.y - self.superview.bounds.origin.y);;
-        newFrame.origin. y = 0;
+    if (newFrame.origin.y < 0) {
+        newFrame.size.height = _cropBorderView.frame.size.height + (_cropBorderView.frame.origin.y - self.superview.bounds.origin.y);
+        newFrame.origin.y = 0;
     }
     
-    if (newFrame.size.width + newFrame.origin.x > self.frame.size.width)
-        newFrame.size.width = self.frame.size.width - _cropBorderView.frame.origin.x;
+    if (newFrame.size.width + newFrame.origin.x > self.frame.size.width) newFrame.size.width = self.frame.size.width - _cropBorderView.frame.origin.x;
     
-    if (newFrame.size.height + newFrame.origin.y > self.frame.size.height - toolbarSize)
-        newFrame.size.height = self.frame.size.height  - _cropBorderView.frame.origin.y - toolbarSize;
+    if (newFrame.size.height + newFrame.origin.y > self.frame.size.height - toolbarSize) newFrame.size.height = self.frame.size.height  - _cropBorderView.frame.origin.y - toolbarSize;
     return newFrame;
 }
 
--(void)_resetFramesToThisOne:(CGRect)frame{
+- (void)_resetFramesToThisOne:(CGRect)frame {
     _cropBorderView.frame = frame;
     _contentView.frame = CGRectInset(frame, kBorderCorrectionValue, kBorderCorrectionValue);
     self.cropSize = _contentView.frame.size;
@@ -215,7 +206,7 @@
     [_cropBorderView setNeedsDisplay];
 }
 
--(void)_fillMultiplyer{    
+- (void)_fillMultiplyer {
     //-1 left, 0 middle, 1 right
     _resizeMultiplyer.heightMultiplyer =  (_theAnchor.y == 0 ? -1 : (_theAnchor.y == _cropBorderView.bounds.size.height) ? 1 : 0);
     //-1 up, 0 middle, 1 down
@@ -228,8 +219,7 @@
 
 #pragma mark -
 #pragma drawing
-- (void)drawRect:(CGRect)rect{
-
+- (void)drawRect:(CGRect)rect {
     //fill outer rect
     [[UIColor colorWithRed:0. green:0. blue:0. alpha:0.5] set];
     UIRectFill(self.bounds);
@@ -237,7 +227,6 @@
     //fill inner rect
     [[UIColor clearColor] set];
     UIRectFill(self.contentView.frame);
-    
 }
 
 @end

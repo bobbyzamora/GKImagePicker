@@ -15,11 +15,11 @@ typedef struct {
     int heightMultiplyer;
     int xMultiplyer;
     int yMultiplyer;
-}GKResizeableViewBorderMultiplyer;
+} GKResizeableViewBorderMultiplyer;
 
 @interface GKResizeableCropOverlayView : GKImageCropOverlayView
 
-@property (nonatomic, strong) UIView* contentView;
+@property (nonatomic, strong) UIView *contentView;
 @property (nonatomic, strong, readonly) GKCropBorderView *cropBorderView;
 
 /**
@@ -28,6 +28,6 @@ typedef struct {
  @param initial crop size
  @return crop view instance
  */
--(id)initWithFrame:(CGRect)frame andInitialContentSize:(CGSize)contentSize;
+- (id)initWithFrame:(CGRect)frame andInitialContentSize:(CGSize)contentSize;
 
 @end

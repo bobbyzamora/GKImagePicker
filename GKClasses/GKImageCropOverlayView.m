@@ -23,25 +23,23 @@
 #pragma mark -
 #pragma Overriden
 
-- (id)initWithFrame:(CGRect)frame{
+- (id)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
         // Initialization code
-
+        
         self.backgroundColor = [UIColor clearColor];
         self.userInteractionEnabled = YES;
     }
     return self;
 }
 
-
 // Only override drawRect: if you perform custom drawing.
 // An empty implementation adversely affects performance during animation.
 
-- (void)drawRect:(CGRect)rect{
-    
+- (void)drawRect:(CGRect)rect {
     CGFloat toolbarSize = UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad ? 0 : 54;
-
+    
     CGFloat width = CGRectGetWidth(self.frame);
     CGFloat height = CGRectGetHeight(self.frame) - toolbarSize;
     
@@ -63,15 +61,12 @@
     
     
     if (heightSpan > 30 && (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)) {
-        
         [[UIColor whiteColor] set];
-        [NSLocalizedString(@"GKImoveAndScale", @"") drawInRect:CGRectMake(10, (height - heightSpan) + (heightSpan / 2 - 20 / 2) , width - 20, 20) 
-                                                   withFont:[UIFont boldSystemFontOfSize:20] 
-                                              lineBreakMode:NSLineBreakByTruncatingTail
-                                                  alignment:NSTextAlignmentCenter];
-        
+        [NSLocalizedString(@"GKImoveAndScale", @"") drawInRect:CGRectMake(10, (height - heightSpan) + (heightSpan / 2 - 20 / 2), width - 20, 20)
+                                                      withFont:[UIFont boldSystemFontOfSize:20]
+                                                 lineBreakMode:NSLineBreakByTruncatingTail
+                                                     alignment:NSTextAlignmentCenter];
     }
 }
 
 @end
-

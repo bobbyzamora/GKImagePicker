@@ -9,17 +9,16 @@
 #import "GKCropBorderView.h"
 
 #define kNumberOfBorderHandles 8
-#define kHandleDiameter 24
+#define kHandleDiameter        24
 
 
-@interface GKCropBorderView()
--(NSMutableArray*)_calculateAllNeededHandleRects;
+@interface GKCropBorderView ()
+- (NSMutableArray *)_calculateAllNeededHandleRects;
 @end
 
 @implementation GKCropBorderView
 
-- (id)initWithFrame:(CGRect)frame
-{
+- (id)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
         self.backgroundColor = [UIColor clearColor];
@@ -31,8 +30,7 @@
 #pragma drawing
 // Only override drawRect: if you perform custom drawing.
 // An empty implementation adversely affects performance during animation.
-- (void)drawRect:(CGRect)rect
-{
+- (void)drawRect:(CGRect)rect {
     // Drawing code
     
     CGContextRef ctx = UIGraphicsGetCurrentContext();
@@ -42,21 +40,19 @@
     CGContextAddRect(ctx, CGRectMake(kHandleDiameter / 2, kHandleDiameter / 2, rect.size.width - kHandleDiameter, rect.size.height - kHandleDiameter));
     CGContextStrokePath(ctx);
     
-    NSMutableArray* handleRectArray = [self _calculateAllNeededHandleRects];
-    for (NSValue* value in handleRectArray){
+    NSMutableArray *handleRectArray = [self _calculateAllNeededHandleRects];
+    for (NSValue *value in handleRectArray) {
         CGRect currentHandleRect = [value CGRectValue];
         
         CGContextSetRGBFillColor(ctx, 1., 1., 1., 0.95);
         CGContextFillEllipseInRect(ctx, currentHandleRect);
     }
-    
 }
 
 #pragma mark -
 #pragma private
--(NSMutableArray*)_calculateAllNeededHandleRects{
-    
-    NSMutableArray* a = [NSMutableArray new];
+- (NSMutableArray *)_calculateAllNeededHandleRects {
+    NSMutableArray *a = [NSMutableArray new];
     //starting with the upper left corner and then following clockwise
     CGRect currentRect = CGRectMake(0, 0, kHandleDiameter, kHandleDiameter);
     [a addObject:[NSValue valueWithCGRect:currentRect]];
@@ -64,7 +60,7 @@
     currentRect = CGRectMake(self.frame.size.width / 2 - kHandleDiameter / 2, 0, kHandleDiameter, kHandleDiameter);
     [a addObject:[NSValue valueWithCGRect:currentRect]];
     
-    currentRect = CGRectMake(self.frame.size.width - kHandleDiameter, 0 , kHandleDiameter, kHandleDiameter);
+    currentRect = CGRectMake(self.frame.size.width - kHandleDiameter, 0, kHandleDiameter, kHandleDiameter);
     [a addObject:[NSValue valueWithCGRect:currentRect]];
     //upper row done
     currentRect = CGRectMake(self.frame.size.width - kHandleDiameter, self.frame.size.height / 2 - kHandleDiameter / 2, kHandleDiameter, kHandleDiameter);
@@ -84,4 +80,5 @@
     
     return a;
 }
+
 @end
