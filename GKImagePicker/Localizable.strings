@@ -7,7 +7,7 @@
 */
 
 "GKIchoosePhoto" = "Choose Photo";
-"GKIuse" = "Use";
+"GKIuse" = "Выбрать";
 "GKImoveAndScale" = "Move and Scale";
-"GKIcancel" = "Cancel";
-"GKIuse" = "Choose";
+"GKIcancel" = "Отменить";
+"GKIuse" = "Выбрать";

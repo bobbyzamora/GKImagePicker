@@ -156,6 +156,12 @@ static CGRect GKScaleRect(CGRect rect, CGFloat scale) {
         self.scrollView.maximumZoomScale = 20.0;
         self.scrollView.minimumZoomScale = 1.0;
         [self updateZoomScale];
+
+        NSString *version = [[UIDevice currentDevice] systemVersion];
+        int ver = [version intValue];
+        if (ver >= 7){
+            self.scrollView.contentInset = UIEdgeInsetsMake(-20, 0, 0, 0);
+        }
     }
     return self;
 }
